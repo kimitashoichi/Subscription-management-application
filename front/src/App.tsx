@@ -6,7 +6,8 @@ import {
 } from 'react-router-dom';
 
 import './App.css';
-import LoginContainer from "./containers/LoginContainer";
+import LoginContainer from "./containers/login/LoginContainer";
+import SubscriptionCardContainer from "./containers/subscription-card/SubscriptionCardContainer";
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         <Router>
           <div className="App">
             <Route exact path="/" component={LoginContainer} />
+            <Route path="/top" component={SubscriptionCardContainer} />
           </div>
         </Router>
       </StylesProvider>
