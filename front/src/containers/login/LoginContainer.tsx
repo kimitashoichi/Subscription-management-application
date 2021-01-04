@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button"
 
-import LinkComponent from "../components/LinkComponent";
+import LinkComponent from "../../components/LinkComponent";
 import "./LoginContainer.css";
 
 const LoginContainer: React.FC = () => {
