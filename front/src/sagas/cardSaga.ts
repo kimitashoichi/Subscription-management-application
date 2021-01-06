@@ -4,7 +4,7 @@ import * as ActionTypes from '../constants/actionTypes';
 import * as Models from '../models/CardModels';
 import * as APIs from '../apis/cardApis';
 import {
-  AddCardAction,
+  AddCardAction, GetAllCardAction,
 } from "../actions/cardActions"
 
 export function* runAddCardBodySaga (actions: Models.AddCardBodyStart) {
@@ -20,8 +20,21 @@ export function* runAddCardBodySaga (actions: Models.AddCardBodyStart) {
   }
 };
 
+export function* runGetAllCardBodySaga () {
+  const handler = APIs.GetAllCardBody;
+  const {cards, error} = yield call(handler)
+  if (cards && !error) {
+    console.log("GET ALL CARD BODY SAGA OK", cards);
+    yield put(GetAllCardAction.success(cards));
+  } else {
+    console.log("GET ALL CARD BODY SAGA NG");
+    yield put(GetAllCardAction.failure()); 
+  }
+};
+
 export function* watchCards () {
-  yield takeEvery(ActionTypes.ADD_SUBSCRIPTIOM_CARD_START, runAddCardBodySaga)
+  yield takeEvery(ActionTypes.ADD_SUBSCRIPTIOM_CARD_START, runAddCardBodySaga);
+  yield takeEvery(ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_START, runGetAllCardBodySaga);
 }
 
 export default function* rootSaga () {

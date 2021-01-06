@@ -7,8 +7,9 @@ import {
 
 import './App.css';
 import LoginContainer from "./containers/login/LoginContainer";
-import SubscriptionCardContainer from "./containers/subscription-card/SubscriptionCardContainer";
+import SubscriptionCardContainer from "./components/subscription-card/TopSubscriptionCardContainer";
 import AddSubscriptionCardContainer from "./containers/add-subscription-card/AddSubscriptionCard";
+import ShowSubscriptionCard from "./containers/show-subscription-card/ShowSubscriptionCard";
 
 const App: React.FC = () => {
   return (
@@ -17,7 +18,7 @@ const App: React.FC = () => {
         <Router>
           <div className="App">
             <Route exact path="/" component={LoginContainer} />
-            <Route path="/top" component={AddSubscriptionCardContainer} />
+            <Route path="/top" component={ShowSubscriptionCard} />
           </div>
         </Router>
       </StylesProvider>

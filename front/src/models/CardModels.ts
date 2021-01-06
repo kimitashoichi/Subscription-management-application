@@ -2,7 +2,8 @@ import * as ActionTypes from "../constants/actionTypes";
 
 export interface CardState {
   isLoading: boolean;
-  cardBody: CardBody[];
+  addCardBody: CardBody;
+  getAllCardBody: CardBody[];
 }
 
 
@@ -27,7 +28,26 @@ export interface AddCardBodyFailure {
   type: typeof ActionTypes.ADD_SUBSCRIPTIOM_CAR_FAILURE,
 }
 
+
+// Get All Card Body
+// 本来であれば引数にユーザーIDを渡す
+export interface GetAllCardBodyStart {
+  type: typeof ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_START,
+}
+
+export interface GetAllCardBodySuccess {
+  type: typeof ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_SUCCESS,
+  payload: CardBody[]
+}
+
+export interface GetAllCardBodyFailure {
+  type: typeof ActionTypes.GET_ALL_SUBSCRIPTIOM_CAR_FAILURE,
+}
+
 export type CardActions =
  | AddCardBodyStart
  | AddCardBodySuccess
- | AddCardBodyFailure;
+ | AddCardBodyFailure
+ | GetAllCardBodyStart
+ | GetAllCardBodySuccess
+ | GetAllCardBodyFailure;
