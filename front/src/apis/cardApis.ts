@@ -58,7 +58,7 @@ export const DeleteCardBody = async () => {
     await firebase
     .firestore()
     .collection("test")
-    .doc('Wkmy7ZMdLxB17j3Szdlt')
+    .doc('TIEhJS6yiyiQdVTjszh2')
     .delete()
     .catch(errror => {
       throw new Error(errror.message)

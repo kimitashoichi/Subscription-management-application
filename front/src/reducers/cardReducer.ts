@@ -69,7 +69,7 @@ const card: Reducer<Models.CardState, Models.CardActions> = (
         ...state,
         isLoading: true
       }
-    case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_START:
+    case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_SUCCESS:
       return {
         ...state,
         isLoading: false

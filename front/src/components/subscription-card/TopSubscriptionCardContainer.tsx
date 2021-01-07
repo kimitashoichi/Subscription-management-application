@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 
+
 import * as Models from "../../models/CardModels";
 import { AppState } from "../../models/index";
 import { 
@@ -19,6 +20,7 @@ import Typography from "@material-ui/core/Typography";
 import Dialog from '@material-ui/core/Dialog';
 
 import DetailSubscriptionCardContainer from "./DetailSubscriptionCardComponent";
+import EditSubscriptionCardContainer from "../../containers/edit-subscription-card/EditSubscriptionCardContainer";
 
 const useStyles = makeStyles({
   root: {
@@ -31,6 +33,7 @@ const useStyles = makeStyles({
 
 interface Props {
   card: Models.CardBody;
+  isLoading: boolean;
   deleteCard: () => void;
   getAllCard: () => void;
 }
@@ -38,12 +41,16 @@ interface Props {
 const TopSubscriptionCardContainer: React.FC<Props> = ({
   card,
   deleteCard,
-  getAllCard
+  getAllCard,
+  isLoading
 }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const [deleteDialog, setdeleteDialog] = useState<boolean>(false);
+  const [editDialog, setEditDialog] = useState<boolean>(false);
   const classes = useStyles();
 
   const handleClickOpen = () => {
+    getAllCard()
     setOpen(true);
   };
 
@@ -51,9 +58,28 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
     setOpen(false);
   };
 
-  const UpdateData = () => {
-    deleteCard()
+  const deleteDialogOpen = () => {
     getAllCard()
+    setdeleteDialog(true);
+  };
+
+  const deleteDialogClose = () => {
+    setdeleteDialog(false);
+  };
+
+  const editDialogClickOpen = () => {
+    getAllCard();
+    setEditDialog(true);
+  };
+
+  const editDialogClickClose = () => {
+    setEditDialog(false);
+  };
+
+  const UpdateData = () => {
+    deleteCard();
+    getAllCard();
+    setdeleteDialog(false);
   }
 
   return (
@@ -71,48 +97,52 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
         </CardActionArea>
         <CardActions>
           {/* TODO：ここをクリックするとモーダルが表示され、編集できるようにする */}
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={() => editDialogClickOpen()}>
             Edit
           </Button>
           {/* TODO：ここをクリックすると確認モーダルが表示され、削除できるようにする */}
-          <Button size="small" color="primary" onClick={UpdateData}>
+          <Button size="small" color="primary" onClick={() => deleteDialogOpen()}>
             Delete
           </Button>
         </CardActions>
       </Card>
 
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description">
-          <DetailSubscriptionCardContainer card={card}/>
-          {/* <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
-            <DialogContent>
-              <Typography variant="h6" id="alert-dialog-description">
-                Let Google help apps
-              </Typography>
-              <Divider component="div" style={{padding: "10px 0px", backgroundColor: "white"}}  />
-              <DialogContentText id="alert-dialog-description">
-                Let Google help apps determine location. This means sending anonymous location data to
-                Google, even when no apps are running.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Disagree
-              </Button>
-              <Button onClick={handleClose} color="primary" autoFocus>
-                Agree
-              </Button>
-            </DialogActions> */}
-        </Dialog>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DetailSubscriptionCardContainer card={card}/>
+      </Dialog>
+
+      <Dialog
+        open={editDialog}
+        onClose={editDialogClickClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <EditSubscriptionCardContainer card={card} setEditDialog={editDialogClickClose}/>
+      </Dialog>
+
+      <Dialog
+        open={deleteDialog}
+        onClose={deleteDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        本当に削除しますか？
+        <Button size="small" color="primary" onClick={() => UpdateData()}>
+          Delete
+        </Button>
+        {/* TODO：ここをクリックすると確認モーダルが表示され、削除できるようにする */}
+        <Button size="small" color="primary" onClick={() => deleteDialogClose()}>
+          Close
+        </Button>
+      </Dialog>
     </>
   );
 }
 
 const mapStateToProps = (state: AppState) => ({
-
+  isLoading: state.card.isLoading
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
