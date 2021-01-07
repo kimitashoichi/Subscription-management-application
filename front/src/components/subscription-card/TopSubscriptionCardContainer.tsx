@@ -1,6 +1,13 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
 
 import * as Models from "../../models/CardModels";
+import { AppState } from "../../models/index";
+import { 
+  DeleteCardAction,
+  GetAllCardAction
+ } from "../../actions/cardActions";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -10,11 +17,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Divider from '@material-ui/core/Divider';
+
+import DetailSubscriptionCardContainer from "./DetailSubscriptionCardComponent";
 
 const useStyles = makeStyles({
   root: {
@@ -27,10 +31,14 @@ const useStyles = makeStyles({
 
 interface Props {
   card: Models.CardBody;
+  deleteCard: () => void;
+  getAllCard: () => void;
 }
 
 const TopSubscriptionCardContainer: React.FC<Props> = ({
-  card
+  card,
+  deleteCard,
+  getAllCard
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const classes = useStyles();
@@ -42,6 +50,11 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
   const handleClose = () => {
     setOpen(false);
   };
+
+  const UpdateData = () => {
+    deleteCard()
+    getAllCard()
+  }
 
   return (
     <>
@@ -62,7 +75,7 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
             Edit
           </Button>
           {/* TODO：ここをクリックすると確認モーダルが表示され、削除できるようにする */}
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={UpdateData}>
             Delete
           </Button>
         </CardActions>
@@ -73,7 +86,8 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description">
-          <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+          <DetailSubscriptionCardContainer card={card}/>
+          {/* <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
             <DialogContent>
               <Typography variant="h6" id="alert-dialog-description">
                 Let Google help apps
@@ -91,10 +105,23 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
               <Button onClick={handleClose} color="primary" autoFocus>
                 Agree
               </Button>
-            </DialogActions>
+            </DialogActions> */}
         </Dialog>
     </>
   );
 }
 
-export default TopSubscriptionCardContainer;
+const mapStateToProps = (state: AppState) => ({
+
+})
+
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators({
+    deleteCard: () => DeleteCardAction.start(),
+    getAllCard: () => GetAllCardAction.start(),
+  }, dispatch)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TopSubscriptionCardContainer);

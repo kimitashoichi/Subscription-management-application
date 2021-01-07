@@ -28,7 +28,7 @@ const card: Reducer<Models.CardState, Models.CardActions> = (
         ...state,
         isLoading: false
       }
-    case ActionTypes.ADD_SUBSCRIPTIOM_CAR_FAILURE:
+    case ActionTypes.ADD_SUBSCRIPTIOM_CARD_FAILURE:
       return {
         ...state,
         isLoading: false
@@ -44,7 +44,37 @@ const card: Reducer<Models.CardState, Models.CardActions> = (
         getAllCardBody: action.payload,
         isLoading: false
       }
-    case ActionTypes.GET_ALL_SUBSCRIPTIOM_CAR_FAILURE:
+    case ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_FAILURE:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case ActionTypes.DELETE_SUBSCRIPTIOM_CARD_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ActionTypes.DELETE_SUBSCRIPTIOM_CARD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case ActionTypes.DELETE_SUBSCRIPTIOM_CARD_FAILURE:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_START:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_FAILURE:
       return {
         ...state,
         isLoading: false

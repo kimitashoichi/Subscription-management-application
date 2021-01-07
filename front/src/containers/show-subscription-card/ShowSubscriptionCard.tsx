@@ -16,11 +16,12 @@ interface Props {
 
 const ShowSubscriptionCard: React.FC<Props> = ({
   getAllCard,
-  allCards
+  allCards,
+  isLoading
 }) => {
   useEffect(() => {
     getAllCard();
-  }, [])
+  }, [isLoading = false])
 
   return (
     <>

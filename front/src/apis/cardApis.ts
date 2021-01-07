@@ -50,3 +50,42 @@ export const GetAllCardBody = async () => {
     return { error }
   }
 };
+
+// 削除処理
+// TODO：ID指定で削除できるようにする
+export const DeleteCardBody = async () => {
+  try {
+    await firebase
+    .firestore()
+    .collection("test")
+    .doc('Wkmy7ZMdLxB17j3Szdlt')
+    .delete()
+    .catch(errror => {
+      throw new Error(errror.message)
+    })
+    const success = {success: "200 OK DELETE SUCCESS"};
+    return { success }
+  } catch  (error) {
+    return { error }
+  }
+}
+
+
+// 編集処理
+// TODO：ID指定で編集できるようにする
+export const EditCardBody = async (data: Models.CardBody) => {
+  try {
+    await firebase
+    .firestore()
+    .collection("test")
+    .doc("8jwBmDiFeg51LW0fhIzT")
+    .update(data)
+    .catch(error => {
+      throw new Error(error.message)
+    })
+    const success = {success: "200 OK EDIT SUCCESS"};
+    return {success}
+  } catch (error) {
+    return { error }
+  }
+}

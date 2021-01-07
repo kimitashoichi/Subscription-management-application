@@ -25,7 +25,7 @@ export interface AddCardBodySuccess {
 }
 
 export interface AddCardBodyFailure {
-  type: typeof ActionTypes.ADD_SUBSCRIPTIOM_CAR_FAILURE,
+  type: typeof ActionTypes.ADD_SUBSCRIPTIOM_CARD_FAILURE,
 }
 
 
@@ -41,7 +41,37 @@ export interface GetAllCardBodySuccess {
 }
 
 export interface GetAllCardBodyFailure {
-  type: typeof ActionTypes.GET_ALL_SUBSCRIPTIOM_CAR_FAILURE,
+  type: typeof ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_FAILURE,
+}
+
+
+// DELETE Card Body
+// TODO:ID指定で特定のデータを削除できるようにする
+export interface DeleteCardBodyStart {
+  type: typeof ActionTypes.DELETE_SUBSCRIPTIOM_CARD_START,
+}
+
+export interface DeleteCardBodySuccess {
+  type: typeof ActionTypes.DELETE_SUBSCRIPTIOM_CARD_SUCCESS,
+}
+
+export interface DeleteCardBodyFailure {
+  type: typeof ActionTypes.DELETE_SUBSCRIPTIOM_CARD_FAILURE,
+}
+
+// EDIT Card Body
+// TODO:ID指定で特定のデータを編集できるようにする
+export interface EditCardBodyStart {
+  type: typeof ActionTypes.EDIT_SUBSCRIPTIOM_CARD_START
+  payload: CardBody
+}
+
+export interface EditCardBodySuccess {
+  type: typeof ActionTypes.EDIT_SUBSCRIPTIOM_CARD_SUCCESS,
+}
+
+export interface EditCardBodyFailure {
+  type: typeof ActionTypes.EDIT_SUBSCRIPTIOM_CARD_FAILURE,
 }
 
 export type CardActions =
@@ -50,4 +80,10 @@ export type CardActions =
  | AddCardBodyFailure
  | GetAllCardBodyStart
  | GetAllCardBodySuccess
- | GetAllCardBodyFailure;
+ | GetAllCardBodyFailure
+ | DeleteCardBodyStart
+ | DeleteCardBodySuccess
+ | DeleteCardBodyFailure
+ | EditCardBodyStart
+ | EditCardBodySuccess
+ | EditCardBodyFailure;

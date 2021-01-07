@@ -7,7 +7,6 @@ import {
 
 import './App.css';
 import LoginContainer from "./containers/login/LoginContainer";
-import SubscriptionCardContainer from "./components/subscription-card/TopSubscriptionCardContainer";
 import AddSubscriptionCardContainer from "./containers/add-subscription-card/AddSubscriptionCard";
 import ShowSubscriptionCard from "./containers/show-subscription-card/ShowSubscriptionCard";
 
