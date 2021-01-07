@@ -1,5 +1,7 @@
 import React from "react";
 
+import * as Models from "../../models/CardModels";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -17,7 +19,13 @@ const useStyles = makeStyles({
   }
 });
 
-const SubscriptionCardContainer: React.FC = () => {
+interface Props {
+  card: Models.CardBody;
+}
+
+const DetailSubscriptionCardContainer: React.FC<Props> = ({
+  card
+}) => {
   const classes = useStyles();
 
   return (
@@ -25,26 +33,26 @@ const SubscriptionCardContainer: React.FC = () => {
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h4" component="h2">
-            Amazon Prime
+            {card.name}
           </Typography>
           <Typography variant="h6" component="h3">
-            500円/月
+            {card.price}円/月
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            アマゾンで買い物するときに安くなったり早く届いたり、アマゾンプライムビデオと言う動画配信サービスを視聴することができるサービス
+            {card.caption}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Share
+          Edit
         </Button>
         <Button size="small" color="primary">
-          Learn More
+          Delete
         </Button>
       </CardActions>
     </Card>
   );
 }
 
-export default SubscriptionCardContainer;
+export default DetailSubscriptionCardContainer;

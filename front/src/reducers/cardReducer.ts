@@ -5,7 +5,12 @@ import * as Models from "../models/CardModels";
 
 const initialState: Models.CardState = {
   isLoading: false,
-  cardBody: [],
+  addCardBody: {
+    name: "",
+    price: 0,
+    caption: ""
+  },
+  getAllCardBody: []
 }
 
 const card: Reducer<Models.CardState, Models.CardActions> = (
@@ -23,7 +28,53 @@ const card: Reducer<Models.CardState, Models.CardActions> = (
         ...state,
         isLoading: false
       }
-    case ActionTypes.ADD_SUBSCRIPTIOM_CAR_FAILURE:
+    case ActionTypes.ADD_SUBSCRIPTIOM_CARD_FAILURE:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_SUCCESS:
+      return {
+        ...state,
+        getAllCardBody: action.payload,
+        isLoading: false
+      }
+    case ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_FAILURE:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case ActionTypes.DELETE_SUBSCRIPTIOM_CARD_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ActionTypes.DELETE_SUBSCRIPTIOM_CARD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case ActionTypes.DELETE_SUBSCRIPTIOM_CARD_FAILURE:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_FAILURE:
       return {
         ...state,
         isLoading: false
