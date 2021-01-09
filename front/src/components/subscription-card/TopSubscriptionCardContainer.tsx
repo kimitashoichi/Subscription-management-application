@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
+import { Redirect } from "react-router-dom";
 
 
 import * as Models from "../../models/CardModels";
+import { LoginUser } from "../../models/UserModels";
 import { AppState } from "../../models/index";
 import { 
   DeleteCardAction,
   GetAllCardAction
- } from "../../actions/cardActions";
+} from "../../actions/cardActions";
+import { logoutAction } from "../../actions/userActions";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -33,22 +36,27 @@ const useStyles = makeStyles({
 
 interface Props {
   card: Models.CardBody;
+  user: LoginUser;
   isLoading: boolean;
   deleteCard: () => void;
   getAllCard: () => void;
+  logout: () => void;
 }
 
 const TopSubscriptionCardContainer: React.FC<Props> = ({
   card,
   deleteCard,
   getAllCard,
-  isLoading
+  isLoading,
+  logout,
+  user
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [deleteDialog, setdeleteDialog] = useState<boolean>(false);
   const [editDialog, setEditDialog] = useState<boolean>(false);
   const classes = useStyles();
 
+  // TODO: 見辛すぎるかつ実装がカッコ悪いのでのでリファクタリングする
   const handleClickOpen = () => {
     getAllCard()
     setOpen(true);
@@ -84,6 +92,12 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
 
   return (
     <>
+      { user.id !== "" ?
+        <Button onClick={logout}>logout</Button>
+        :
+        <Redirect to={"/"} /> 
+      }
+
       <Card className={classes.root}>
         <CardActionArea>
           <CardContent onClick={() => handleClickOpen()} >
@@ -142,13 +156,15 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
 }
 
 const mapStateToProps = (state: AppState) => ({
-  isLoading: state.card.isLoading
+  isLoading: state.card.isLoading,
+  user: state.user.user
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators({
     deleteCard: () => DeleteCardAction.start(),
     getAllCard: () => GetAllCardAction.start(),
+    logout: () => logoutAction.start()
   }, dispatch)
 
 export default connect(
