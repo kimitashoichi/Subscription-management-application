@@ -38,8 +38,8 @@ interface Props {
   card: Models.CardBody;
   user: LoginUser;
   isLoading: boolean;
-  deleteCard: () => void;
-  getAllCard: () => void;
+  deleteCard: (id: string) => void;
+  getAllCard: (id: string) => void;
   logout: () => void;
 }
 
@@ -54,11 +54,12 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
   const [open, setOpen] = useState<boolean>(false);
   const [deleteDialog, setdeleteDialog] = useState<boolean>(false);
   const [editDialog, setEditDialog] = useState<boolean>(false);
+
   const classes = useStyles();
 
   // TODO: 見辛すぎるかつ実装がカッコ悪いのでのでリファクタリングする
   const handleClickOpen = () => {
-    getAllCard()
+    getAllCard(user.id);
     setOpen(true);
   };
 
@@ -66,8 +67,11 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
     setOpen(false);
   };
 
+
+
+  // 削除ダイアログ
   const deleteDialogOpen = () => {
-    getAllCard()
+    getAllCard(user.id);
     setdeleteDialog(true);
   };
 
@@ -75,8 +79,9 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
     setdeleteDialog(false);
   };
 
+  // 編集ダイアログ
   const editDialogClickOpen = () => {
-    getAllCard();
+    getAllCard(user.id);
     setEditDialog(true);
   };
 
@@ -85,15 +90,15 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
   };
 
   const UpdateData = () => {
-    deleteCard();
-    getAllCard();
+    deleteCard(card.id);
+    getAllCard(user.id);
     setdeleteDialog(false);
   }
 
   return (
     <>
       { user.id !== "" ?
-        <Button onClick={logout}>logout</Button>
+        null
         :
         <Redirect to={"/"} /> 
       }
@@ -126,7 +131,7 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description">
-        <DetailSubscriptionCardContainer card={card}/>
+        <DetailSubscriptionCardContainer card={card} setOpen={setOpen} />
       </Dialog>
 
       <Dialog
@@ -162,8 +167,8 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators({
-    deleteCard: () => DeleteCardAction.start(),
-    getAllCard: () => GetAllCardAction.start(),
+    deleteCard: (id: string) => DeleteCardAction.start(id),
+    getAllCard: (id: string) => GetAllCardAction.start(id),
     logout: () => logoutAction.start()
   }, dispatch)
 

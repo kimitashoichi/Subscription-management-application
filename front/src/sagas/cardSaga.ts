@@ -23,9 +23,10 @@ export function* runAddCardBodySaga (actions: Models.AddCardBodyStart) {
   }
 };
 
-export function* runGetAllCardBodySaga () {
+export function* runGetAllCardBodySaga (actions: Models.DeleteCardBodyStart) {
+  const id = actions.payload;
   const handler = APIs.GetAllCardBody;
-  const {cards, error} = yield call(handler)
+  const {cards, error} = yield call(handler, id);
   if (cards && !error) {
     console.log("GET ALL CARD BODY SAGA OK", cards);
     yield put(GetAllCardAction.success(cards));
@@ -37,9 +38,10 @@ export function* runGetAllCardBodySaga () {
 
 
 // TODO:ID指定でカードを削除できるようにする
-export function* runDeleteCardBodySaga () {
+export function* runDeleteCardBodySaga (action: Models.DeleteCardBodyStart) {
+  const id = action.payload;
   const handler = APIs.DeleteCardBody;
-  const {success, error} = yield call(handler)
+  const {success, error} = yield call(handler, id);
   if (success && !error) {
     console.log("DELETE CARD BODY SAGA OK");
     yield put(DeleteCardAction.success());

@@ -2,8 +2,7 @@ import firebase from '../utils/firebase';
 import * as Models from '../models/CardModels';
 
 
-// TODO:ログイン後のユーザーしか使用できないようにしたいためユーザーIDを引数に渡す
-export const AddCardBody = async (data: Models.CardBody) => {
+export const AddCardBody = async (data: Models.AddCardBody) => {
   try {
     await firebase
     .firestore()
@@ -24,12 +23,13 @@ export const AddCardBody = async (data: Models.CardBody) => {
 
 
 // TODO:ユーザーIDが一致したデータしか取得できないようにする => 本来であれば引数にユーザーIDを渡す
-export const GetAllCardBody = async () => {
+export const GetAllCardBody = async (id: string) => {
   try {
     const cards: Models.CardBody[] = [];
     await firebase
     .firestore()
     .collection('test')
+    .where('userId', '==', id)
     .get()
     .then(snapShot => {
       if (snapShot.empty) {
@@ -37,6 +37,8 @@ export const GetAllCardBody = async () => {
       }
       snapShot.forEach(doc => {
         cards.push({
+          id: doc.id,
+          userId: doc.data().userId,
           name: doc.data().name ? doc.data().name : "empty",
           price: doc.data().price ? doc.data().price : 0,
           caption: doc.data().caption ? doc.data().caption : "empty"
@@ -52,13 +54,12 @@ export const GetAllCardBody = async () => {
 };
 
 // 削除処理
-// TODO：ID指定で削除できるようにする
-export const DeleteCardBody = async () => {
+export const DeleteCardBody = async (id: string) => {
   try {
     await firebase
     .firestore()
     .collection("test")
-    .doc('TIEhJS6yiyiQdVTjszh2')
+    .doc(id)
     .delete()
     .catch(errror => {
       throw new Error(errror.message)
@@ -70,15 +71,13 @@ export const DeleteCardBody = async () => {
   }
 }
 
-
 // 編集処理
-// TODO：ID指定で編集できるようにする
 export const EditCardBody = async (data: Models.CardBody) => {
   try {
     await firebase
     .firestore()
     .collection("test")
-    .doc("8jwBmDiFeg51LW0fhIzT")
+    .doc(data.id)
     .update(data)
     .catch(error => {
       throw new Error(error.message)

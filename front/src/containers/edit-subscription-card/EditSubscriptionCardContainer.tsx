@@ -1,7 +1,6 @@
 import React, { useState, FormEvent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
-import PropTypes from 'prop-types';
 
 import * as Models from "../../models/CardModels";
 import { AppState } from "../../models/index";
@@ -43,6 +42,8 @@ const EditSubscriptionCardContainer: React.FC<Props> = ({
   const submitEditValue = async (e: FormEvent) => {
     e.preventDefault();
     const data = {
+      id: card.id,
+      userId: card.userId,
       name: name,
       price: price,
       caption: caption

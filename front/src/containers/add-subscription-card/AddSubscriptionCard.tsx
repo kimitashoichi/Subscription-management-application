@@ -8,11 +8,15 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 import { TextareaAutosize } from "@material-ui/core";
 
 import * as Models from "../../models/CardModels";
 import { AppState } from "../../models/index";
-import { AddCardAction } from "../../actions/cardActions";
+import { 
+  AddCardAction,
+  GetAllCardAction
+} from "../../actions/cardActions";
 
 const useStyles = makeStyles({
   root: {
@@ -24,11 +28,17 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-  addCard: (payload: Models.CardBody) => void;
+  userId: string;
+  addCard: (payload: Models.AddCardBody) => void;
+  getAllCard: (id: string) => void;
+  setAddDialog: any;  // 親コンポーネントのState変更用関数を受け取っている
 }
 
 const AddSubscriptionCardContainer: React.FC<Props> = ({
-  addCard
+  userId,
+  addCard,
+  setAddDialog,
+  getAllCard
 }) => {
   const [title, setTitle] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
@@ -38,12 +48,15 @@ const AddSubscriptionCardContainer: React.FC<Props> = ({
   const handleOnSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const payload = {
+      userId: userId,
       name: title,
       price: price,
       caption: caption
     }
     await addCard(payload);
-
+    await getAllCard(userId);
+    
+    setAddDialog(false);
     setTitle("");
     setPrice(0);
     setCaption("");
@@ -63,11 +76,11 @@ const AddSubscriptionCardContainer: React.FC<Props> = ({
               onChange={(e) => setTitle(e.target.value)}/>
 
             <h4>月額料金</h4>
-            <TextareaAutosize
+            <TextField
               className="standard-textarea"
               placeholder="月額料金"
+              type="number"
               value={price}
-              rowsMin={2}
               onChange={(e) => setPrice(Number(e.target.value))}/>
 
             <h4>サービス内容</h4>
@@ -87,6 +100,12 @@ const AddSubscriptionCardContainer: React.FC<Props> = ({
             onClick={handleOnSubmit}>
             Save
           </Button>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => setAddDialog(false)}>
+            Close
+          </Button>
         </CardActions>
       </Card>
     </>
@@ -98,10 +117,13 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators({
-    addCard: payload => AddCardAction.start(payload),
+    // TODO: 送信するデータ型を指定する
+    // 明示的にanyにすることで一時的にエラーを回避しているため
+    addCard: (payload: any) => AddCardAction.start(payload),
+    getAllCard: (userId: string) => GetAllCardAction.start(userId),
   }, dispatch)
 
-  export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AddSubscriptionCardContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddSubscriptionCardContainer);
