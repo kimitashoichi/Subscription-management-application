@@ -62,3 +62,35 @@ export const EditCardAction = {
     type: ActionTypes.EDIT_SUBSCRIPTIOM_CARD_FAILURE as typeof ActionTypes.EDIT_SUBSCRIPTIOM_CARD_FAILURE
   })
 }
+
+
+export const AmountCalculationAction = {
+  start: (payload: Models.CardPriceAmount) => ({
+    type: ActionTypes.AMOUNT_CALCULATION_START as typeof ActionTypes.AMOUNT_CALCULATION_START,
+    payload: payload
+  }),
+
+  success: () => ({
+    type: ActionTypes.AMOUNT_CALCULATION_SUCCESS as typeof ActionTypes.AMOUNT_CALCULATION_SUCCESS
+  }),
+
+  failure: () => ({
+    type: ActionTypes.AMOUNT_CALCULATION_FAILURE as typeof ActionTypes.AMOUNT_CALCULATION_FAILURE
+  })
+}
+
+export const GetAmountAction = {
+  start: (id: string) => ({
+    type: ActionTypes.GET_AMOUNT_START as typeof ActionTypes.GET_AMOUNT_START,
+    payload: id
+  }),
+
+  success: (payload: Models.CardPriceAmount) => ({
+    type: ActionTypes.GET_AMOUNT_SUCCESS as typeof ActionTypes.GET_AMOUNT_SUCCESS,
+    payload: payload
+  }),
+
+  failure: () => ({
+    type: ActionTypes.GET_AMOUNT_FAILURE as typeof ActionTypes.GET_AMOUNT_FAILURE
+  })
+}

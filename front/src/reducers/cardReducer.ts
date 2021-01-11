@@ -12,7 +12,11 @@ const initialState: Models.CardState = {
     price: 0,
     caption: ""
   },
-  getAllCardBody: []
+  getAllCardBody: [],
+  amount: {
+    userId: "",
+    amount: 0
+  }
 }
 
 const card: Reducer<Models.CardState, Models.CardActions> = (
@@ -77,6 +81,22 @@ const card: Reducer<Models.CardState, Models.CardActions> = (
         isLoading: false
       }
     case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_FAILURE:
+      return {
+        ...state,
+        isLoading: false
+      }
+    case ActionTypes.GET_AMOUNT_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ActionTypes.GET_AMOUNT_SUCCESS:
+      return {
+        ...state,
+        amount: action.payload,
+        isLoading: false
+      }
+    case ActionTypes.GET_AMOUNT_FAILURE:
       return {
         ...state,
         isLoading: false
