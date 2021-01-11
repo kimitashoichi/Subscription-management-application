@@ -21,10 +21,12 @@ const useStyles = makeStyles({
 
 interface Props {
   card: Models.CardBody;
+  setOpen: any;
 }
 
 const DetailSubscriptionCardContainer: React.FC<Props> = ({
-  card
+  card,
+  setOpen
 }) => {
   const classes = useStyles();
 
@@ -44,11 +46,8 @@ const DetailSubscriptionCardContainer: React.FC<Props> = ({
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Edit
-        </Button>
-        <Button size="small" color="primary">
-          Delete
+        <Button size="small" color="primary" onClick={() => setOpen(false)}>
+          Close
         </Button>
       </CardActions>
     </Card>

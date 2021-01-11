@@ -6,6 +6,8 @@ import * as Models from "../models/CardModels";
 const initialState: Models.CardState = {
   isLoading: false,
   addCardBody: {
+    id: "",
+    userId: "",
     name: "",
     price: 0,
     caption: ""

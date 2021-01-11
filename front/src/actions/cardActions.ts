@@ -2,7 +2,7 @@ import * as Models from "../models/CardModels";
 import * as ActionTypes from "../constants/actionTypes";
 
 export const AddCardAction = {
-  start: (payload: Models.CardBody) => ({
+  start: (payload: Models.AddCardBody) => ({
     type: ActionTypes.ADD_SUBSCRIPTIOM_CARD_START as typeof ActionTypes.ADD_SUBSCRIPTIOM_CARD_START,
     payload: payload
   }),
@@ -17,8 +17,9 @@ export const AddCardAction = {
 }
 
 export const GetAllCardAction = {
-  start: () => ({
+  start: (id: string) => ({
     type: ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_START as typeof ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_START,
+    payload: id
   }),
 
   success: (payload: Models.CardBody[]) => ({
@@ -32,9 +33,9 @@ export const GetAllCardAction = {
 }
 
 export const DeleteCardAction = {
-  // TODO:カードのIDを指定して特定のデータを削除できるようにする
-  start: () => ({
+  start: (id: string) => ({
     type: ActionTypes.DELETE_SUBSCRIPTIOM_CARD_START as typeof ActionTypes.DELETE_SUBSCRIPTIOM_CARD_START,
+    payload: id
   }),
 
   success: () => ({
@@ -48,7 +49,6 @@ export const DeleteCardAction = {
 
 
 export const EditCardAction = {
-  // TODO:カードのIDを指定して特定のデータを編集できるようにする
   start: (payload: Models.CardBody) => ({
     type: ActionTypes.EDIT_SUBSCRIPTIOM_CARD_START as typeof ActionTypes.EDIT_SUBSCRIPTIOM_CARD_START,
     payload: payload
