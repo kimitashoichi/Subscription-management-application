@@ -4,7 +4,10 @@ import { bindActionCreators, Dispatch } from "redux";
 
 import * as Models from "../../models/CardModels";
 import { AppState } from "../../models/index";
-import { EditCardAction } from "../../actions/cardActions";
+import {
+  EditCardAction,
+  GetAmountAction
+} from "../../actions/cardActions";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -25,15 +28,16 @@ const useStyles = makeStyles({
 interface Props {
   card: Models.CardBody;
   editCard: (payload: Models.CardBody) => void;
+  getAmount: (id: string) => void;
   setEditDialog: any
 }
 
 const EditSubscriptionCardContainer: React.FC<Props> = ({
   card,
   editCard,
+  getAmount,
   setEditDialog
 }) => {
-  const [open, setOpen] = useState<boolean>(true);
   const [name, setName] = useState<string>(card.name);
   const [price, setPrice] = useState<number>(card.price);
   const [caption, setCaption] = useState<string>(card.caption);
@@ -47,10 +51,11 @@ const EditSubscriptionCardContainer: React.FC<Props> = ({
       name: name,
       price: price,
       caption: caption
-    }
+    };
 
-    await editCard(data)
-    setEditDialog()
+    await editCard(data);
+    await getAmount(card.userId);
+    setEditDialog();
   }
 
   return (
@@ -103,7 +108,8 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators({
-    editCard: (dummy: Models.CardBody) => EditCardAction.start(dummy)
+    editCard: (payload: Models.CardBody) => EditCardAction.start(payload),
+    getAmount: (id: string) => GetAmountAction.start(id)
   }, dispatch)
 
 export default connect(

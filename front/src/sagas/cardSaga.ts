@@ -7,8 +7,10 @@ import {
   AddCardAction,
   GetAllCardAction,
   DeleteCardAction,
-  EditCardAction
+  EditCardAction,
+  GetAmountAction
 } from "../actions/cardActions"
+
 
 export function* runAddCardBodySaga (actions: Models.AddCardBodyStart) {
   const data = actions.payload;
@@ -37,7 +39,6 @@ export function* runGetAllCardBodySaga (actions: Models.DeleteCardBodyStart) {
 };
 
 
-// TODO:ID指定でカードを削除できるようにする
 export function* runDeleteCardBodySaga (action: Models.DeleteCardBodyStart) {
   const id = action.payload;
   const handler = APIs.DeleteCardBody;
@@ -52,7 +53,6 @@ export function* runDeleteCardBodySaga (action: Models.DeleteCardBodyStart) {
 };
 
 
-// TODO:ID指定でカードを編集できるようにする
 export function* runEditCardBodySaga (action: Models.EditCardBodyStart) {
   const data = action.payload;
   const handler = APIs.EditCardBody;
@@ -66,11 +66,26 @@ export function* runEditCardBodySaga (action: Models.EditCardBodyStart) {
   }
 };
 
+
+export function* runGetAmountSaga (action: Models.GetAmountStart) {
+  const data = action.payload;
+  const handler = APIs.GetAmount;
+  const {amount, error} = yield call(handler, data);
+  if (amount && !error) {
+    console.log('OK GET AMOUNT SAGA');
+    yield put(GetAmountAction.success(amount));
+  } else {
+    console.log("NG GET AMOUNT SAGA");
+    yield put(GetAmountAction.failure());
+  }
+}
+
 export function* watchCards () {
   yield takeEvery(ActionTypes.ADD_SUBSCRIPTIOM_CARD_START, runAddCardBodySaga);
   yield takeEvery(ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_START, runGetAllCardBodySaga);
   yield takeEvery(ActionTypes.DELETE_SUBSCRIPTIOM_CARD_START, runDeleteCardBodySaga);
   yield takeEvery(ActionTypes.EDIT_SUBSCRIPTIOM_CARD_START, runEditCardBodySaga);
+  yield takeEvery(ActionTypes.GET_AMOUNT_START, runGetAmountSaga);
 }
 
 export default function* rootSaga () {

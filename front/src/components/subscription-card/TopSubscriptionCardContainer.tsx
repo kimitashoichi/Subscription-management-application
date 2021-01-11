@@ -9,9 +9,9 @@ import { LoginUser } from "../../models/UserModels";
 import { AppState } from "../../models/index";
 import { 
   DeleteCardAction,
-  GetAllCardAction
+  GetAllCardAction,
+  GetAmountAction
 } from "../../actions/cardActions";
-import { logoutAction } from "../../actions/userActions";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -40,16 +40,16 @@ interface Props {
   isLoading: boolean;
   deleteCard: (id: string) => void;
   getAllCard: (id: string) => void;
-  logout: () => void;
+  getAmount: (id: string) => void;
 }
 
 const TopSubscriptionCardContainer: React.FC<Props> = ({
   card,
   deleteCard,
   getAllCard,
+  getAmount,
   isLoading,
-  logout,
-  user
+  user,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [deleteDialog, setdeleteDialog] = useState<boolean>(false);
@@ -60,13 +60,14 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
   // TODO: 見辛すぎるかつ実装がカッコ悪いのでのでリファクタリングする
   const handleClickOpen = () => {
     getAllCard(user.id);
+    getAmount(user.id);
     setOpen(true);
   };
 
   const handleClose = () => {
+    getAmount(user.id);
     setOpen(false);
   };
-
 
 
   // 削除ダイアログ
@@ -76,6 +77,8 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
   };
 
   const deleteDialogClose = () => {
+    getAllCard(user.id);
+    getAmount(user.id);
     setdeleteDialog(false);
   };
 
@@ -86,11 +89,13 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
   };
 
   const editDialogClickClose = () => {
+    getAmount(user.id);
     setEditDialog(false);
   };
 
   const UpdateData = () => {
     deleteCard(card.id);
+    getAmount(user.id);
     getAllCard(user.id);
     setdeleteDialog(false);
   }
@@ -169,7 +174,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators({
     deleteCard: (id: string) => DeleteCardAction.start(id),
     getAllCard: (id: string) => GetAllCardAction.start(id),
-    logout: () => logoutAction.start()
+    getAmount: (id: string) => GetAmountAction.start(id)
   }, dispatch)
 
 export default connect(

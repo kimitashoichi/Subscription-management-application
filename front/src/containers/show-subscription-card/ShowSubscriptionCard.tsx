@@ -5,7 +5,10 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as Models from "../../models/CardModels";
 import { LoginUser } from "../../models/UserModels";
 import { AppState } from "../../models/index";
-import { GetAllCardAction } from "../../actions/cardActions";
+import { 
+  GetAllCardAction,
+  GetAmountAction
+} from "../../actions/cardActions";
 import { logoutAction } from "../../actions/userActions";
 
 import Button from "@material-ui/core/Button";
@@ -17,9 +20,11 @@ import AddSubscriptionCardContainer from "../../containers/add-subscription-card
 interface Props {
   getAllCard: (id: string) => void;
   logout: () => void;
+  getAmount: (id: string) => void;
   user: LoginUser;
   isLoading: boolean;
-  allCards: Models.CardBody[]
+  allCards: Models.CardBody[];
+  amount: Models.CardPriceAmount;
 }
 
 const ShowSubscriptionCard: React.FC<Props> = ({
@@ -27,10 +32,13 @@ const ShowSubscriptionCard: React.FC<Props> = ({
   allCards,
   isLoading,
   logout,
-  user
+  user,
+  getAmount,
+  amount
 }) => {
   useEffect(() => {
     getAllCard(user.id);
+    getAmount(user.id);
   }, [isLoading = false])
 
   const [addDialog, setAddDialog] = useState<boolean>(false);
@@ -38,13 +46,14 @@ const ShowSubscriptionCard: React.FC<Props> = ({
   // 追加ダイアログ
   const addDialogOpen = () => {
     setAddDialog(true);
+    getAllCard(user.id);
+    getAmount(user.id);
   }
 
-  // 投稿ボタンが押されたタイミングで閉じるものと
-  // 投稿を途中でやめた場合に閉じるもので2つ作る必要があるか
-  // もしくは投稿完了、中止のどちらのボタンが押されても同じ関数コンポーネントを渡すが、フラグを持たせて引数として渡し判断する
   const addDialogClose = () => {
     setAddDialog(false);
+    getAllCard(user.id);
+    getAmount(user.id);
   }
 
   return (
@@ -66,6 +75,8 @@ const ShowSubscriptionCard: React.FC<Props> = ({
         :
         null
       }
+
+      {console.log("render showComponent", amount)}
 
       { isLoading ?
         <h1>Now Loading...</h1>
@@ -89,13 +100,15 @@ const ShowSubscriptionCard: React.FC<Props> = ({
 const mapStateToProps = (state: AppState) => ({
   isLoading: state.card.isLoading,
   allCards: state.card.getAllCardBody,
-  user: state.user.user
+  user: state.user.user,
+  amount: state.card.amount
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators({
     getAllCard: (id: string) => GetAllCardAction.start(id),
-    logout: () => logoutAction.start()
+    logout: () => logoutAction.start(),
+    getAmount: (id: string) => GetAmountAction.start(id)
   }, dispatch);
 
 
