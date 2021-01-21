@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Redirect } from "react-router-dom";
@@ -21,6 +21,7 @@ import Dialog from "@material-ui/core/Dialog";
 
 import TopSubscriptionCardContainer from "../../components/subscription-card/TopSubscriptionCardContainer";
 import AddSubscriptionCardContainer from "../../containers/add-subscription-card/AddSubscriptionCard";
+import AmountComponent from "../../components/amount/AmountComponent";
 
 interface Props {
   getAllCard: (id: string) => void;
@@ -100,6 +101,8 @@ const ShowSubscriptionCard: React.FC<Props> = ({
         :
         <h1>Now loginCheck</h1>
       }
+
+      <AmountComponent amount={amount} />
 
       { redirect ? <Redirect to="/" /> : null }
 

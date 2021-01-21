@@ -55,20 +55,18 @@ export const GetAllCardBody = async (id: string) => {
 };
 
 function TotalAmountCalculation (userId: string, cards: Models.CardBody[]) :any {
-  let postData = {};
-  let amount = 0;
+  let count = 0;
   for(let i = 0; i < cards.length; i++) {
-    amount += cards[i].price;
+    count += cards[i].price;
   }
-  postData = {
+  return { 
     userId: userId,
-    amount: amount
-  }
-  return { postData }
+    amount: count
+   }
 }
 
 // 合計金額の投稿処理
-export const CalculationOfTotalAmount = async (postData: any, userId: string) => {
+export const CalculationOfTotalAmount = async (postData: Models.CardPriceAmount, userId: string) => {
   try {
     await firebase
     .firestore()
