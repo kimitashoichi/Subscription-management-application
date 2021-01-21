@@ -1,7 +1,5 @@
 import * as ActionTypes from "../constants/actionTypes";
 
-// userId, name, email, => name は初期値をid or ゲストに設定する（望ましいのはid）
-
 export interface UserState {
   isLoading: boolean;
   user: LoginUser;
@@ -41,10 +39,27 @@ export interface logoutFailure {
   type: typeof ActionTypes.LOGOUT_FAILURE
 }
 
+// ログイン状態の監視
+export interface logoutMonitoringStart {
+  type: typeof ActionTypes.LOGIN_STATUS_MONITORING_START
+}
+
+export interface logoutMonitoringSuccess {
+  type: typeof ActionTypes.LOGIN_STATUS_MONITORING_SUCCESS
+  payload: LoginUser
+}
+
+export interface logoutMonitoringFailure {
+  type: typeof ActionTypes.LOGIN_STATUS_MONITORING_FAILURE
+}
+
 export type userAction =
   | loginStart
   | loginSuccess
   | loginFailure
   | logoutStart
   | logoutSuccess
-  | logoutFailure;
+  | logoutFailure
+  | logoutMonitoringStart
+  | logoutMonitoringSuccess
+  | logoutMonitoringFailure;

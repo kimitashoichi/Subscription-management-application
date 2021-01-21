@@ -92,3 +92,48 @@ export const logout = async () => {
     return { error };
   };
 };
+
+// ログイン状態の監視
+export const loginMonitoring = async () => {
+  try {
+    let userInfo;
+    await firebase
+    .auth()
+    .onAuthStateChanged(user => {
+      if (!user) {
+        return;
+      }
+      const data = Object.assign({}, setUserInfo(user));
+      console.log(data.id, 'login check user');
+      userInfo = data;
+    })
+    return { userInfo }
+  } catch(error) {
+    return { error };
+  }
+}
+
+export const getUserData = async (id: string) => {
+  try {
+    let userInfo;
+    if (id) {
+      console.log(id)
+      await firebase
+      .firestore()
+      .collection('users')
+      .doc(id)
+      .get()
+      .then(doc => {
+        if(!doc){
+          return;
+        }
+        const uData = Object.assign({}, doc.data());
+        console.log(uData, 'check api login state')
+        userInfo = uData
+      })
+    }
+    return { userInfo }
+  } catch(error) {
+    return { error }
+  }
+}

@@ -49,6 +49,22 @@ const user: Reducer<Models.UserState, Models.userAction> = (
         ...state,
         isLoading: false
       }
+    case ActionTypes.LOGIN_STATUS_MONITORING_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ActionTypes.LOGIN_STATUS_MONITORING_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+        isLoading: false
+      }
+    case ActionTypes.LOGIN_STATUS_MONITORING_FAILURE:
+      return {
+        ...state,
+        isLoading: false
+      }
     default:
       return state
   }

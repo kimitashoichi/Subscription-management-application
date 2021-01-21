@@ -79,7 +79,7 @@ export const CalculationOfTotalAmount = async (postData: any, userId: string) =>
       console.log('postIdea Error Firebase')
       throw new Error(error.message);
     })
-    console.log('postIdea Error Firebase 2')
+    console.log('CALC AMOUNT OK API')
     const success = { success: 'PostIdea 200 ok' };
     return { success }
   } catch (error) {

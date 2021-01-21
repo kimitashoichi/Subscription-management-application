@@ -1,11 +1,12 @@
-import { all, call, fork, put, takeEvery } from "redux-saga/effects";
+import { all, call, fork, put, takeEvery, takeLatest } from "redux-saga/effects";
 
 import * as ActionTypes from '../constants/actionTypes';
 import * as Models from '../models/UserModels';
 import * as APIs from '../apis/userApis';
 import { 
   loginAction,
-  logoutAction
+  logoutAction,
+  loginMonitoringAction
  } from "../actions/userActions";
 
 
@@ -33,9 +34,22 @@ export function* runLogout () {
   };
 }
 
+export function* runLoginMonitoring () {
+  const handler = APIs.loginMonitoring;
+  const {userInfo, error} = yield call(handler)
+  if (userInfo && !error) {
+    console.log("login monitoring OK");
+    yield put(loginMonitoringAction.success(userInfo))
+  } else {
+    console.log("login monitoring NG");
+    yield put(loginMonitoringAction.failure())
+  }
+}
+
 export function* watchUers () {
   yield takeEvery(ActionTypes.LOGIN_START, runLogin);
   yield takeEvery(ActionTypes.LOGOUT_START, runLogout);
+  yield takeLatest(ActionTypes.LOGIN_STATUS_MONITORING_START, runLoginMonitoring)
 }
 
 export default function* rootSaga () {

@@ -16,7 +16,6 @@ export const loginAction = {
   }),
 }
 
-
 export const logoutAction = {
   start: () => ({
     type: ActionTypes.LOGOUT_START as typeof ActionTypes.LOGOUT_START
@@ -28,5 +27,20 @@ export const logoutAction = {
   
   failure: () => ({
     type: ActionTypes.LOGOUT_FAILURE as typeof ActionTypes.LOGOUT_FAILURE
+  }),
+}
+
+export const loginMonitoringAction = {
+  start: () => ({
+    type: ActionTypes.LOGIN_STATUS_MONITORING_START as typeof ActionTypes.LOGIN_STATUS_MONITORING_START
+  }),
+
+  success: (user: Models.LoginUser) => ({
+    type: ActionTypes.LOGIN_STATUS_MONITORING_SUCCESS as typeof ActionTypes.LOGIN_STATUS_MONITORING_SUCCESS,
+    payload: user
+  }),
+
+  failure: () => ({
+    type: ActionTypes.LOGIN_STATUS_MONITORING_FAILURE as typeof ActionTypes.LOGIN_STATUS_MONITORING_FAILURE
   }),
 }
