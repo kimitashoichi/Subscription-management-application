@@ -4,6 +4,9 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { Redirect } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { AppState } from "../../models/index";
 import * as Models from "../../models/UserModels";
@@ -15,19 +18,42 @@ interface Props {
   user: Models.LoginUser;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: '100%',
+      '& > * + *': {
+        marginTop: theme.spacing(2),
+      },
+    },
+  }),
+);
+
 const LoginContainer: React.FC<Props> = ({
   login,
   user,
 }) => {
+  const classes = useStyles();
+
   return (
     <>
       <div className="top-container">
-        <h1>App Title</h1>
+        <div className={classes.root}>
+          <LinearProgress />
+            <h1 className="app-title">Subscription Manager</h1>
+          <LinearProgress color="secondary" />
+        </div>
 
         { user.id !== "" ? 
           <Redirect to={"/top"} /> 
           :
-          <Button onClick={login}>Login</Button> 
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            className="login-button"
+            startIcon={<ExitToAppIcon />}
+            onClick={login}>Login</Button> 
         }
       </div>
     </>

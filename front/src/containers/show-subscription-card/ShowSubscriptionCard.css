@@ -1,0 +1,13 @@
+.card-container {
+  flex-grow: 1;
+}
+
+.head {
+  margin-bottom: 3em;
+}
+
+.add-button-warapper {
+  display: inline-block;
+  width: 80%;
+  margin-bottom: 3em;
+}
