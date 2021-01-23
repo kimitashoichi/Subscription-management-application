@@ -3,6 +3,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Redirect } from "react-router-dom";
 
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import Grid from '@material-ui/core/Grid';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+
 import firebase from "../../utils/firebase";
 import * as Models from "../../models/CardModels";
 import { LoginUser } from "../../models/UserModels";
@@ -16,12 +26,10 @@ import {
   loginMonitoringAction
 } from "../../actions/userActions";
 
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-
-import TopSubscriptionCardContainer from "../../components/subscription-card/TopSubscriptionCardContainer";
+import TopSubscriptionCardContainer from "../subscription-card/TopSubscriptionCardContainer";
 import AddSubscriptionCardContainer from "../../containers/add-subscription-card/AddSubscriptionCard";
-import AmountComponent from "../../components/amount/AmountComponent";
+import AmountComponent from "../amount/AmountComponent";
+import "./ShowSubscriptionCard.css";
 
 interface Props {
   getAllCard: (id: string) => void;
@@ -33,6 +41,37 @@ interface Props {
   allCards: Models.CardBody[];
   amount: Models.CardPriceAmount;
 }
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+      width: "80%",
+      margin: "auto"
+    },
+    logoutButton: {
+      float: "right",
+      marginRight: "10%"
+    },
+    addButton: {
+      float: "left",
+      marginTop: "5%",
+      width: "20%",
+      height: "20%",
+      fontSize: '20px'
+    },
+    addDialog: {
+      minWidth: 300,
+    },
+    appBar: {
+      display: "flex",
+      justifyContent: "space-between"
+    },
+    headerFont: {
+      fontWeight: "bold"
+    }
+  }),
+);
 
 const ShowSubscriptionCard: React.FC<Props> = ({
   getAllCard,
@@ -48,8 +87,9 @@ const ShowSubscriptionCard: React.FC<Props> = ({
   const [check, setCheck] = useState<boolean>(false);
   const [redirect, setRedirect] = useState<boolean>(false);
 
+  const classes = useStyles();
+
   useEffect(() => {
-    // これをReducerに渡してReduxで管理できるようにする
     firebase.auth().onAuthStateChanged(fuser => {
       if (fuser) {
         setCheck(true);
@@ -60,15 +100,9 @@ const ShowSubscriptionCard: React.FC<Props> = ({
         setRedirect(true);
       }
     })
-  }, [])
-
-  // 追加ダイアログ
-  const addDialogOpen = () => {
-    setAddDialog(true);
-  }
+  }, []);
 
   const addDialogClose = () => {
-    // これらはユーザーがデータを追加した時に画面表示を変更させるために必要
     setAddDialog(false);
     getAllCard(user.id);
     getAmount(user.id);
@@ -77,15 +111,24 @@ const ShowSubscriptionCard: React.FC<Props> = ({
   return (
     <>
       { check ?
-        <div>
-          <div>Hello {user.name}</div>
-          <Button onClick={logout}>logout</Button>
-          <Button onClick={() => addDialogOpen()}>ADD</Button>
+        <div className="head">
+          <AppBar position="static">
+            <Toolbar className={classes.appBar}>
+              <Typography variant="h6" className={classes.headerFont}>
+                Hello! {user.name} さん！
+              </Typography>
+              <Button
+                variant="contained"
+                color="default"
+                size="large"
+                startIcon={<ExitToAppIcon />}
+                className={classes.logoutButton}
+                onClick={logout}>logout</Button>
+            </Toolbar>
+          </AppBar>
           <Dialog
             open={addDialog}
-            onClose={addDialogClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description">
+            onClose={addDialogClose}>
             <AddSubscriptionCardContainer userId={user.id} setAddDialog={() => setAddDialog(false)} />
           </Dialog>
         </div>
@@ -94,23 +137,35 @@ const ShowSubscriptionCard: React.FC<Props> = ({
       }
 
       <AmountComponent amount={amount} />
+      <div className="add-button-warapper">
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.addButton}
+          startIcon={<AddCircleOutlineOutlinedIcon />}
+          onClick={() => setAddDialog(true)}>ADD</Button>
+      </div>
 
       { redirect ? <Redirect to="/" /> : null }
 
       { user.id === "" ?
         <h1>Now Loading...</h1>
        :
-        <>
-         { allCards.length > 0 ?
-           allCards.map((card) => {
-             return (
-               <TopSubscriptionCardContainer card={card} key={card.name} />
-             )
-           })
-          :
-           null
-         }
-        </>
+       <div className={classes.root}>
+         <Grid container spacing={3} justify="center">
+          { allCards.length > 0 ?
+            allCards.map((card) => {
+              return (
+                <Grid item xs={3}>
+                  <TopSubscriptionCardContainer card={card} key={card.name} />
+                </Grid>
+              )
+            })
+            :
+            null
+          }
+         </Grid>
+       </div>
       }
     </>
   )

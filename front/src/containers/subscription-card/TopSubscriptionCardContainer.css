@@ -1,0 +1,22 @@
+.sub-name {
+  padding-bottom: 10px;
+  font-weight: bold;
+}
+
+.button-group {
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 2em;
+}
+
+.edit-button {
+  margin-left: 1em;
+}
+
+.delete-button {
+  margin-left: 1em;
+}
+
+.confirm-message {
+  text-align: center;
+}

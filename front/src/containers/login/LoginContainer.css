@@ -1,3 +1,10 @@
 .top-container {
   margin: 300px 0;
 }
+
+.login-button {
+  margin-top: 50px;
+  width: 18em;
+  height: 5em;
+  font-size: 1em;
+}

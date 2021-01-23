@@ -21,10 +21,23 @@ import {
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345
+    minWidth: 600,
   },
   media: {
     height: 140
+  },
+  cardContent: {
+    textAlign: "left",
+    maxWidth: 450,
+    margin: "auto",
+  },
+  textArea: {
+    minWidth: "100%"
+  },
+  buttons: {
+    width: "80%",
+    margin: "auto",
+    justifyContent: "flex-end",
   }
 });
 
@@ -80,43 +93,44 @@ const AddSubscriptionCardContainer: React.FC<Props> = ({
     <>
       <Card className={classes.root}>
         <CardActionArea>
-          <CardContent>
-            <h4>サービス名</h4>
+          <CardContent className={classes.cardContent}>
+            <h3>サービス名</h3>
             <TextareaAutosize
-              className="standard-textarea"
+              className={classes.textArea}
               placeholder="サービス名"
               value={title}
               rowsMin={2}
               onChange={(e) => setTitle(e.target.value)}/>
 
-            <h4>月額料金</h4>
+            <h3>月額料金</h3>
             <TextField
-              className="standard-textarea"
+              className={classes.textArea}
               placeholder="月額料金"
               type="number"
               value={price}
               onChange={(e) => setPrice(Number(e.target.value))}/>
 
-            <h4>サービス内容</h4>
+            <h3>サービス内容</h3>
             <TextareaAutosize
-              className="standard-textarea"
+              className={classes.textArea}
               placeholder="サービス内容"
               value={caption}
               rowsMin={10}
               onChange={(e) => setCaption(e.target.value)}/>
-
           </CardContent>
         </CardActionArea>
-        <CardActions>
+        <CardActions className={classes.buttons}>
           <Button
-            size="small"
+            size="medium"
             color="primary"
+            variant="contained"
             onClick={handleOnSubmit}>
             Save
           </Button>
           <Button
-            size="small"
-            color="primary"
+            size="medium"
+            color="secondary"
+            variant="contained"
             onClick={() => setAddDialog(false)}>
             Close
           </Button>

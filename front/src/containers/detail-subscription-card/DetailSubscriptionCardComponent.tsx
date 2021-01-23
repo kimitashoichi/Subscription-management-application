@@ -12,10 +12,35 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345
+    minWidth: 600,
+    minHeight: 200
   },
   media: {
     height: 140
+  },
+  cardActionArea: {
+    textAlign: "center",
+    marginTop: 20
+  },
+  cardContent: {
+    width: "80%",
+    margin: "auto"
+  },
+  serviceName: {
+    fontWeight: "bold"
+  },
+  serviceFee: {
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 20
+  },
+  serviceCaption: {
+    textAlign: "left"
+  },
+  cardActions: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: 10
   }
 });
 
@@ -32,21 +57,25 @@ const DetailSubscriptionCardContainer: React.FC<Props> = ({
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
-        <CardContent>
-          <Typography gutterBottom variant="h4" component="h2">
+      <CardActionArea className={classes.cardActionArea} disabled>
+        <CardContent className={classes.cardContent}>
+          <Typography variant="h5" component="h5" className={classes.serviceName}>
             {card.name}
           </Typography>
-          <Typography variant="h6" component="h3">
-            {card.price}円/月
+          <Typography variant="h5" component="h5" className={classes.serviceFee}>
+            ￥{card.price}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" component="p" className={classes.serviceCaption}>
             {card.caption}
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary" onClick={() => setOpen(false)}>
+      <CardActions className={classes.cardActions}>
+        <Button
+          size="medium"
+          color="primary"
+          variant="contained"
+          onClick={() => setOpen(false)}>
           Close
         </Button>
       </CardActions>

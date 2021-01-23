@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import TextField from '@material-ui/core/TextField';
 import CardActions from "@material-ui/core/CardActions";
+import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 
@@ -20,10 +21,25 @@ import {
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345
+    minWidth: 600
   },
   media: {
     height: 140
+  },
+  cardContent: {
+    display: "grid",
+  },
+  firstTextArea: {
+    marginTop: "20px",
+    marginBottom: "35px",
+  },
+  textArea: {
+    marginBottom: "35px",
+  },
+  buttons: {
+    width: "90%",
+    margin: "auto",
+    justifyContent: "flex-end",
   }
 });
 
@@ -73,39 +89,44 @@ const EditSubscriptionCardContainer: React.FC<Props> = ({
   return (
     <>
       <Card className={classes.root}>
-        <CardContent>
-          <TextField
-            label="サービス名"
-            id="outlined-margin-none"
-            defaultValue={card.name}
-            onChange={e => setName(e.target.value)}
-            variant="outlined"/>
-          
-          <TextField
-            label="月額料金"
-            id="outlined-margin-none"
-            defaultValue={card.price}
-            onChange={e => setPrice(Number(e.target.value))}
-            variant="outlined"/>
-          
-          <TextField
-            id="outlined-multiline-static"
-            label="サービス概要"
-            multiline
-            rows={4}
-            defaultValue={card.caption}
-            onChange={e => setCaption(e.target.value)}
-            variant="outlined"
-          />
-
-        </CardContent>
-        <CardActions>
-          {/* TODO：ここをクリックするとモーダルが表示され、編集できるようにする */}
-          <Button size="small" color="primary" onClick={submitEditValue}>
+        <CardActionArea>
+          <CardContent className={classes.cardContent}>
+            <TextField
+              label="サービス名"
+              className={classes.firstTextArea}
+              defaultValue={card.name}
+              multiline
+              onChange={e => setName(e.target.value)}
+              variant="outlined"/>
+            
+            <TextField
+              label="月額料金"
+              className={classes.textArea}
+              defaultValue={card.price}
+              onChange={e => setPrice(Number(e.target.value))}
+              variant="outlined"/>
+            
+            <TextField
+              label="サービス概要"
+              multiline
+              rows={4}
+              defaultValue={card.caption}
+              onChange={e => setCaption(e.target.value)}
+              variant="outlined"/>
+          </CardContent>
+        </CardActionArea>
+        <CardActions className={classes.buttons}>
+          <Button
+            size="medium"
+            color="primary"
+            variant="contained"
+            onClick={submitEditValue}>
             Edit
           </Button>
-          {/* TODO：ここをクリックすると確認モーダルが表示され、削除できるようにする */}
-          <Button size="small" color="primary" onClick={() => setEditDialog()}>
+          <Button size="medium"
+            color="secondary"
+            variant="contained"
+            onClick={() => setEditDialog()}>
             Close
           </Button>
         </CardActions>
