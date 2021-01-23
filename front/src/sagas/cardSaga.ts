@@ -38,7 +38,6 @@ export function* runGetAllCardBodySaga (actions: Models.DeleteCardBodyStart) {
   }
 };
 
-
 export function* runDeleteCardBodySaga (action: Models.DeleteCardBodyStart) {
   const id = action.payload;
   const handler = APIs.DeleteCardBody;
@@ -52,7 +51,6 @@ export function* runDeleteCardBodySaga (action: Models.DeleteCardBodyStart) {
   }
 };
 
-
 export function* runEditCardBodySaga (action: Models.EditCardBodyStart) {
   const data = action.payload;
   const handler = APIs.EditCardBody;
@@ -65,7 +63,6 @@ export function* runEditCardBodySaga (action: Models.EditCardBodyStart) {
     yield put(EditCardAction.failure()); 
   }
 };
-
 
 export function* runGetAmountSaga (action: Models.GetAmountStart) {
   const data = action.payload;

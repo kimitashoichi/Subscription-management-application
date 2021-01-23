@@ -34,12 +34,6 @@ interface Props {
   amount: Models.CardPriceAmount;
 }
 
-const initUser: LoginUser = {
-  id: "",
-  name: "",
-  email: ""
-}
-
 const ShowSubscriptionCard: React.FC<Props> = ({
   getAllCard,
   allCards,
@@ -56,10 +50,12 @@ const ShowSubscriptionCard: React.FC<Props> = ({
 
   useEffect(() => {
     // これをReducerに渡してReduxで管理できるようにする
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
+    firebase.auth().onAuthStateChanged(fuser => {
+      if (fuser) {
         setCheck(true);
         loginCheck();
+        getAllCard(fuser.uid);
+        getAmount(fuser.uid);
       } else {
         setRedirect(true);
       }
@@ -68,19 +64,14 @@ const ShowSubscriptionCard: React.FC<Props> = ({
 
   // 追加ダイアログ
   const addDialogOpen = () => {
-    getAllCard(user.id);
-    getAmount(user.id);
     setAddDialog(true);
   }
 
   const addDialogClose = () => {
+    // これらはユーザーがデータを追加した時に画面表示を変更させるために必要
+    setAddDialog(false);
     getAllCard(user.id);
     getAmount(user.id);
-    setAddDialog(false);
-  }
-
-  const handleLogout = () => {
-    logout();
   }
 
   return (
@@ -88,7 +79,7 @@ const ShowSubscriptionCard: React.FC<Props> = ({
       { check ?
         <div>
           <div>Hello {user.name}</div>
-          <Button onClick={() => handleLogout()}>logout</Button>
+          <Button onClick={logout}>logout</Button>
           <Button onClick={() => addDialogOpen()}>ADD</Button>
           <Dialog
             open={addDialog}
@@ -139,7 +130,6 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     getAmount: (id: string) => GetAmountAction.start(id),
     loginCheck: () => loginMonitoringAction.start()
   }, dispatch);
-
 
 export default connect(
   mapStateToProps,

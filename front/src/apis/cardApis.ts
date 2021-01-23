@@ -1,7 +1,7 @@
 import firebase from '../utils/firebase';
 import * as Models from '../models/CardModels';
 
-
+// データ投稿
 export const AddCardBody = async (data: Models.AddCardBody) => {
   try {
     await firebase
@@ -22,7 +22,7 @@ export const AddCardBody = async (data: Models.AddCardBody) => {
 }
 
 
-// TODO:ユーザーIDが一致したデータしか取得できないようにする => 本来であれば引数にユーザーIDを渡す
+// 登録データの全件取得
 export const GetAllCardBody = async (id: string) => {
   try {
     const cards: Models.CardBody[] = [];
@@ -54,6 +54,7 @@ export const GetAllCardBody = async (id: string) => {
   }
 };
 
+// 合計金額を表示するための関数
 function TotalAmountCalculation (userId: string, cards: Models.CardBody[]) :any {
   let count = 0;
   for(let i = 0; i < cards.length; i++) {
