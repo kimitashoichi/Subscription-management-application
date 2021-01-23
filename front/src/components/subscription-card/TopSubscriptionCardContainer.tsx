@@ -69,34 +69,17 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
     setOpen(false);
   };
 
-
-  // 削除ダイアログ
-  const deleteDialogOpen = () => {
-    getAllCard(user.id);
-    setdeleteDialog(true);
-  };
-
-  const deleteDialogClose = () => {
-    getAllCard(user.id);
-    getAmount(user.id);
-    setdeleteDialog(false);
-  };
-
-  // 編集ダイアログ
-  const editDialogClickOpen = () => {
-    getAllCard(user.id);
-    setEditDialog(true);
-  };
-
-  const editDialogClickClose = () => {
-    getAmount(user.id);
-    setEditDialog(false);
-  };
-
   const UpdateData = () => {
     deleteCard(card.id);
-    getAmount(user.id);
-    getAllCard(user.id);
+
+    setTimeout(() => {
+      getAllCard(user.id);
+    }, 1000)
+
+    setTimeout(() => {
+      getAmount(user.id);
+    }, 2000);
+    
     setdeleteDialog(false);
   }
 
@@ -121,11 +104,11 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
         </CardActionArea>
         <CardActions>
           {/* TODO：ここをクリックするとモーダルが表示され、編集できるようにする */}
-          <Button size="small" color="primary" onClick={() => editDialogClickOpen()}>
+          <Button size="small" color="primary" onClick={() => setEditDialog(true)}>
             Edit
           </Button>
           {/* TODO：ここをクリックすると確認モーダルが表示され、削除できるようにする */}
-          <Button size="small" color="primary" onClick={() => deleteDialogOpen()}>
+          <Button size="small" color="primary" onClick={() => setdeleteDialog(true)}>
             Delete
           </Button>
         </CardActions>
@@ -141,23 +124,22 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
 
       <Dialog
         open={editDialog}
-        onClose={editDialogClickClose}
+        onClose={() => setEditDialog(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description">
-        <EditSubscriptionCardContainer card={card} setEditDialog={editDialogClickClose}/>
+        <EditSubscriptionCardContainer card={card} setEditDialog={() => setEditDialog(false)}/>
       </Dialog>
 
       <Dialog
         open={deleteDialog}
-        onClose={deleteDialogClose}
+        onClose={() => setdeleteDialog(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description">
         本当に削除しますか？
         <Button size="small" color="primary" onClick={() => UpdateData()}>
           Delete
         </Button>
-        {/* TODO：ここをクリックすると確認モーダルが表示され、削除できるようにする */}
-        <Button size="small" color="primary" onClick={() => deleteDialogClose()}>
+        <Button size="small" color="primary" onClick={() => setdeleteDialog(false)}>
           Close
         </Button>
       </Dialog>

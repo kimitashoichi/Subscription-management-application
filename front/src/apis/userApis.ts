@@ -113,6 +113,7 @@ export const loginMonitoring = async () => {
   }
 }
 
+// ユーザーデータの取得
 export const getUserData = async (id: string) => {
   try {
     let userInfo;

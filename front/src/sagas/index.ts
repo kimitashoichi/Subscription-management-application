@@ -1,6 +1,5 @@
 import { fork } from "redux-saga/effects";
 
-// それぞれのサガファイルをインポートする
 import cardSaga from "./cardSaga";
 import userSaga from "./userSaga";
 

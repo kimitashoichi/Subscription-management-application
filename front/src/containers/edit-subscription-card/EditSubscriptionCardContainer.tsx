@@ -2,19 +2,21 @@ import React, { useState, FormEvent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 
-import * as Models from "../../models/CardModels";
-import { AppState } from "../../models/index";
-import {
-  EditCardAction,
-  GetAmountAction
-} from "../../actions/cardActions";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import TextField from '@material-ui/core/TextField';
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
+
+import * as Models from "../../models/CardModels";
+import { AppState } from "../../models/index";
+import {
+  EditCardAction,
+  GetAmountAction,
+  GetAllCardAction,
+} from "../../actions/cardActions";
+
 
 const useStyles = makeStyles({
   root: {
@@ -29,14 +31,16 @@ interface Props {
   card: Models.CardBody;
   editCard: (payload: Models.CardBody) => void;
   getAmount: (id: string) => void;
-  setEditDialog: any
+  getallCards: (id: string) => void;
+  setEditDialog: any;
 }
 
 const EditSubscriptionCardContainer: React.FC<Props> = ({
   card,
   editCard,
   getAmount,
-  setEditDialog
+  setEditDialog,
+  getallCards,
 }) => {
   const [name, setName] = useState<string>(card.name);
   const [price, setPrice] = useState<number>(card.price);
@@ -54,7 +58,15 @@ const EditSubscriptionCardContainer: React.FC<Props> = ({
     };
 
     await editCard(data);
-    await getAmount(card.userId);
+
+    setTimeout(() => {
+      getallCards(card.userId);
+    }, 1000)
+
+    setTimeout(() => {
+      getAmount(card.userId)
+    }, 2000);
+
     setEditDialog();
   }
 
@@ -93,7 +105,7 @@ const EditSubscriptionCardContainer: React.FC<Props> = ({
             Edit
           </Button>
           {/* TODO：ここをクリックすると確認モーダルが表示され、削除できるようにする */}
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={() => setEditDialog()}>
             Close
           </Button>
         </CardActions>
@@ -103,13 +115,13 @@ const EditSubscriptionCardContainer: React.FC<Props> = ({
 }
 
 const mapStateToProps = (state: AppState) => ({
-
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators({
     editCard: (payload: Models.CardBody) => EditCardAction.start(payload),
-    getAmount: (id: string) => GetAmountAction.start(id)
+    getAmount: (id: string) => GetAmountAction.start(id),
+    getallCards: (id: string) => GetAllCardAction.start(id),
   }, dispatch)
 
 export default connect(

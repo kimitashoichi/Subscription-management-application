@@ -15,7 +15,8 @@ import * as Models from "../../models/CardModels";
 import { AppState } from "../../models/index";
 import { 
   AddCardAction,
-  GetAllCardAction
+  GetAllCardAction,
+  GetAmountAction
 } from "../../actions/cardActions";
 
 const useStyles = makeStyles({
@@ -31,14 +32,23 @@ interface Props {
   userId: string;
   addCard: (payload: Models.AddCardBody) => void;
   getAllCard: (id: string) => void;
+  getAmount: (id: string) => void;
   setAddDialog: any;  // 親コンポーネントのState変更用関数を受け取っている
+}
+
+interface AddCardPayload {
+  userId: string;
+  name: string;
+  price: number;
+  caption: string;
 }
 
 const AddSubscriptionCardContainer: React.FC<Props> = ({
   userId,
   addCard,
   setAddDialog,
-  getAllCard
+  getAllCard,
+  getAmount
 }) => {
   const [title, setTitle] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
@@ -47,7 +57,7 @@ const AddSubscriptionCardContainer: React.FC<Props> = ({
 
   const handleOnSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const payload = {
+    const payload: AddCardPayload = {
       userId: userId,
       name: title,
       price: price,
@@ -56,6 +66,10 @@ const AddSubscriptionCardContainer: React.FC<Props> = ({
     await addCard(payload);
     await getAllCard(userId);
     
+    setTimeout(() => {
+      getAmount(userId);
+    }, 1000)
+
     setAddDialog(false);
     setTitle("");
     setPrice(0);
@@ -117,10 +131,9 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators({
-    // TODO: 送信するデータ型を指定する
-    // 明示的にanyにすることで一時的にエラーを回避しているため
-    addCard: (payload: any) => AddCardAction.start(payload),
+    addCard: (payload: AddCardPayload) => AddCardAction.start(payload),
     getAllCard: (userId: string) => GetAllCardAction.start(userId),
+    getAmount: (userId: string) => GetAmountAction.start(userId),
   }, dispatch)
 
 export default connect(

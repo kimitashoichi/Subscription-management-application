@@ -1,7 +1,6 @@
 import { all, call, fork, put, takeEvery, takeLatest } from "redux-saga/effects";
 
 import * as ActionTypes from '../constants/actionTypes';
-import * as Models from '../models/UserModels';
 import * as APIs from '../apis/userApis';
 import { 
   loginAction,
