@@ -17,10 +17,8 @@ export function* runAddCardBodySaga (actions: Models.AddCardBodyStart) {
   const handler = APIs.AddCardBody;
   const {success, error} = yield call(handler, data)
   if (success && !error) {
-    console.log("ADD CARD BODY SAGA OK");
     yield put(AddCardAction.success());
   } else {
-    console.log("ADD CARD BODY SAGA NG");
     yield put(AddCardAction.failure()); 
   }
 };
@@ -30,10 +28,8 @@ export function* runGetAllCardBodySaga (actions: Models.DeleteCardBodyStart) {
   const handler = APIs.GetAllCardBody;
   const {cards, error} = yield call(handler, id);
   if (cards && !error) {
-    console.log("GET ALL CARD BODY SAGA OK", cards);
     yield put(GetAllCardAction.success(cards));
   } else {
-    console.log("GET ALL CARD BODY SAGA NG");
     yield put(GetAllCardAction.failure()); 
   }
 };
@@ -43,10 +39,8 @@ export function* runDeleteCardBodySaga (action: Models.DeleteCardBodyStart) {
   const handler = APIs.DeleteCardBody;
   const {success, error} = yield call(handler, id);
   if (success && !error) {
-    console.log("DELETE CARD BODY SAGA OK");
     yield put(DeleteCardAction.success());
   } else {
-    console.log("DELETE CARD BODY SAGA NG");
     yield put(DeleteCardAction.failure()); 
   }
 };
@@ -56,10 +50,8 @@ export function* runEditCardBodySaga (action: Models.EditCardBodyStart) {
   const handler = APIs.EditCardBody;
   const {success, error} = yield call(handler, data)
   if (success && !error) {
-    console.log("EDIT CARD BODY SAGA OK");
     yield put(EditCardAction.success());
   } else {
-    console.log("EDIT CARD BODY SAGA NG");
     yield put(EditCardAction.failure()); 
   }
 };
@@ -69,10 +61,8 @@ export function* runGetAmountSaga (action: Models.GetAmountStart) {
   const handler = APIs.GetAmount;
   const {amount, error} = yield call(handler, data);
   if (amount && !error) {
-    console.log('OK GET AMOUNT SAGA');
     yield put(GetAmountAction.success(amount));
   } else {
-    console.log("NG GET AMOUNT SAGA");
     yield put(GetAmountAction.failure());
   }
 }

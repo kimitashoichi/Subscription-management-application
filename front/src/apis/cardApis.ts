@@ -6,17 +6,15 @@ export const AddCardBody = async (data: Models.AddCardBody) => {
   try {
     await firebase
     .firestore()
-    .collection('test')
+    .collection('subscription')
     .doc()
     .set(data)
     .catch((error) => {
-      console.log('postIdea Error Firebase')
       throw new Error(error.message);
     })
     const success = { success: 'PostIdea 200 ok' };
     return { success }
   } catch(error) {
-    console.log('postIdea Error')
     return { error }
   }
 }
@@ -28,7 +26,7 @@ export const GetAllCardBody = async (id: string) => {
     const cards: Models.CardBody[] = [];
     await firebase
     .firestore()
-    .collection('test')
+    .collection('subscription')
     .where('userId', '==', id)
     .get()
     .then(snapShot => {
@@ -71,14 +69,12 @@ export const CalculationOfTotalAmount = async (postData: Models.CardPriceAmount,
   try {
     await firebase
     .firestore()
-    .collection("amount")
+    .collection("amount-prod")
     .doc(userId)
     .set(postData)
     .catch((error) => {
-      console.log('postIdea Error Firebase')
       throw new Error(error.message);
     })
-    console.log('CALC AMOUNT OK API')
     const success = { success: 'PostIdea 200 ok' };
     return { success }
   } catch (error) {
@@ -92,7 +88,7 @@ export const GetAmount = async (userId: string) => {
     let amount;
     await firebase
     .firestore()
-    .collection("amount")
+    .collection("amount-prod")
     .doc(userId)
     .get()
     .then(doc => {
@@ -101,7 +97,6 @@ export const GetAmount = async (userId: string) => {
       }
       const data = Object.assign({}, doc.data())
       amount = data;
-      console.log("amont", amount);
     }).catch((error) => {
       throw new Error(error.message);
     })
@@ -116,7 +111,7 @@ export const DeleteCardBody = async (id: string) => {
   try {
     await firebase
     .firestore()
-    .collection("test")
+    .collection("subscription")
     .doc(id)
     .delete()
     .catch(errror => {
@@ -134,7 +129,7 @@ export const EditCardBody = async (data: Models.CardBody) => {
   try {
     await firebase
     .firestore()
-    .collection("test")
+    .collection("subscription")
     .doc(data.id)
     .update(data)
     .catch(error => {
