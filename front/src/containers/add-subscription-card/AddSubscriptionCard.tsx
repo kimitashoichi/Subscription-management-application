@@ -92,33 +92,31 @@ const AddSubscriptionCardContainer: React.FC<Props> = ({
   return (
     <>
       <Card className={classes.root}>
-        <CardActionArea>
-          <CardContent className={classes.cardContent}>
-            <h3>サービス名</h3>
-            <TextareaAutosize
-              className={classes.textArea}
-              placeholder="サービス名"
-              value={title}
-              rowsMin={2}
-              onChange={(e) => setTitle(e.target.value)}/>
+        <CardContent className={classes.cardContent}>
+          <h3>サービス名</h3>
+          <TextareaAutosize
+            className={classes.textArea}
+            placeholder="サービス名"
+            value={title}
+            rowsMin={2}
+            onChange={(e) => setTitle(e.target.value)}/>
 
-            <h3>月額料金</h3>
-            <TextField
-              className={classes.textArea}
-              placeholder="月額料金"
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(Number(e.target.value))}/>
+          <h3>月額料金</h3>
+          <TextField
+            className={classes.textArea}
+            placeholder="月額料金"
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(Number(e.target.value))}/>
 
-            <h3>サービス内容</h3>
-            <TextareaAutosize
-              className={classes.textArea}
-              placeholder="サービス内容"
-              value={caption}
-              rowsMin={10}
-              onChange={(e) => setCaption(e.target.value)}/>
-          </CardContent>
-        </CardActionArea>
+          <h3>サービス内容</h3>
+          <TextareaAutosize
+            className={classes.textArea}
+            placeholder="サービス内容"
+            value={caption}
+            rowsMin={10}
+            onChange={(e) => setCaption(e.target.value)}/>
+        </CardContent>
         <CardActions className={classes.buttons}>
           <Button
             size="medium"
