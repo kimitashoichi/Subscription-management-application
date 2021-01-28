@@ -157,7 +157,7 @@ const ShowSubscriptionCard: React.FC<Props> = ({
             allCards.map((card) => {
               return (
                 <Grid item xs={3}>
-                  <TopSubscriptionCardContainer card={card} key={card.name} />
+                  <TopSubscriptionCardContainer card={card} key={card.id} />
                 </Grid>
               )
             })
