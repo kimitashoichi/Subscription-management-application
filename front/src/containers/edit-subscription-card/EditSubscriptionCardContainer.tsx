@@ -89,32 +89,30 @@ const EditSubscriptionCardContainer: React.FC<Props> = ({
   return (
     <>
       <Card className={classes.root}>
-        <CardActionArea>
-          <CardContent className={classes.cardContent}>
-            <TextField
-              label="サービス名"
-              className={classes.firstTextArea}
-              defaultValue={card.name}
-              multiline
-              onChange={e => setName(e.target.value)}
-              variant="outlined"/>
-            
-            <TextField
-              label="月額料金"
-              className={classes.textArea}
-              defaultValue={card.price}
-              onChange={e => setPrice(Number(e.target.value))}
-              variant="outlined"/>
-            
-            <TextField
-              label="サービス概要"
-              multiline
-              rows={4}
-              defaultValue={card.caption}
-              onChange={e => setCaption(e.target.value)}
-              variant="outlined"/>
-          </CardContent>
-        </CardActionArea>
+        <CardContent className={classes.cardContent}>
+          <TextField
+            label="サービス名"
+            className={classes.firstTextArea}
+            defaultValue={card.name}
+            multiline
+            onChange={e => setName(e.target.value)}
+            variant="outlined"/>
+          
+          <TextField
+            label="月額料金"
+            className={classes.textArea}
+            defaultValue={card.price}
+            onChange={e => setPrice(Number(e.target.value))}
+            variant="outlined"/>
+          
+          <TextField
+            label="サービス概要"
+            multiline
+            rows={4}
+            defaultValue={card.caption}
+            onChange={e => setCaption(e.target.value)}
+            variant="outlined"/>
+        </CardContent>
         <CardActions className={classes.buttons}>
           <Button
             size="medium"
