@@ -26,7 +26,7 @@ import {
   loginMonitoringAction
 } from "../../actions/userActions";
 
-import TopSubscriptionCardContainer from "../subscription-card/TopSubscriptionCardContainer";
+import TopSubscriptionCardContainer from "../top-subscription-card/TopSubscriptionCardContainer";
 import AddSubscriptionCardContainer from "../../containers/add-subscription-card/AddSubscriptionCard";
 import AmountComponent from "../amount/AmountComponent";
 import "./ShowSubscriptionCard.css";
@@ -37,7 +37,8 @@ interface Props {
   getAmount: (id: string) => void;
   loginCheck: () => void;
   user: LoginUser;
-  isLoading: boolean;
+  getLoading: boolean;
+  amountLoading: boolean;
   allCards: Models.CardBody[];
   amount: Models.CardPriceAmount;
 }
@@ -76,7 +77,8 @@ const useStyles = makeStyles(() =>
 const ShowSubscriptionCard: React.FC<Props> = ({
   getAllCard,
   allCards,
-  isLoading,
+  amountLoading,
+  getLoading,
   logout,
   user,
   loginCheck,
@@ -172,7 +174,8 @@ const ShowSubscriptionCard: React.FC<Props> = ({
 };
 
 const mapStateToProps = (state: AppState) => ({
-  isLoading: state.card.isLoading,
+  getLoading: state.card.getLoading,
+  amountLoading: state.card.amountLoading,
   allCards: state.card.getAllCardBody,
   user: state.user.user,
   amount: state.card.amount

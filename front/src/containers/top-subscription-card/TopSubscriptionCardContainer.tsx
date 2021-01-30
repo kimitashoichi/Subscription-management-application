@@ -52,6 +52,8 @@ const useStyles = makeStyles({
 interface Props {
   card: Models.CardBody;
   user: LoginUser;
+  getLoading: boolean;
+  amountLoading: boolean;
   deleteCard: (id: string) => void;
   getAllCard: (id: string) => void;
   getAmount: (id: string) => void;
@@ -63,6 +65,8 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
   getAllCard,
   getAmount,
   user,
+  getLoading,
+  amountLoading
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [deleteDialog, setdeleteDialog] = useState<boolean>(false);
@@ -172,7 +176,9 @@ const TopSubscriptionCardContainer: React.FC<Props> = ({
 }
 
 const mapStateToProps = (state: AppState) => ({
-  user: state.user.user
+  user: state.user.user,
+  getLoading: state.card.getLoading,
+  amountLoading: state.card.amountLoading
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
