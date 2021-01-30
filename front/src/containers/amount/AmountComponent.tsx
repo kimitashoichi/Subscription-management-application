@@ -69,7 +69,6 @@ const AmountComponent: React.FC<Props> = ({
 
   return (
     <>
-     {console.log(amount.amount)}
      <div className="box">
      { amount.amount !== 0 ?
        <div className="container">

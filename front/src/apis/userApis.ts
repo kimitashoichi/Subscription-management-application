@@ -47,7 +47,7 @@ export const signUp = async(data: Models.LoginUser) => {
     // check already signup user
     await firebase
     .firestore()
-    .collection('users')
+    .collection('users-prod')
     .doc(data.id)
     .get()
     .then(user => {
@@ -60,7 +60,7 @@ export const signUp = async(data: Models.LoginUser) => {
     if(flag) {
       await firebase
       .firestore()
-      .collection('users')
+      .collection('users-prod')
       .doc(data.id)
       .set(data)
       .catch(error => {
@@ -82,7 +82,6 @@ export const logout = async () => {
     .auth()
     .signOut()
     .then(info => {
-      console.log('Logout API', info)
     }).catch(error => {
       throw new Error(error.message);
     })
@@ -104,7 +103,6 @@ export const loginMonitoring = async () => {
         return;
       }
       const data = Object.assign({}, setUserInfo(user));
-      console.log(data.id, 'login check user');
       userInfo = data;
     })
     return { userInfo }
@@ -118,10 +116,9 @@ export const getUserData = async (id: string) => {
   try {
     let userInfo;
     if (id) {
-      console.log(id)
       await firebase
       .firestore()
-      .collection('users')
+      .collection('users-prod')
       .doc(id)
       .get()
       .then(doc => {
@@ -129,7 +126,6 @@ export const getUserData = async (id: string) => {
           return;
         }
         const uData = Object.assign({}, doc.data());
-        console.log(uData, 'check api login state')
         userInfo = uData
       })
     }
