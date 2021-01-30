@@ -4,7 +4,11 @@ import * as ActionTypes from "../constants/actionTypes";
 import * as Models from "../models/CardModels";
 
 const initialState: Models.CardState = {
-  isLoading: false,
+  addLoading: false,
+  editLoading: false,
+  deleteLoading: false,
+  getLoading: false,
+  amountLoading: false,
   addCardBody: {
     id: "",
     userId: "",
@@ -27,79 +31,79 @@ const card: Reducer<Models.CardState, Models.CardActions> = (
     case ActionTypes.ADD_SUBSCRIPTIOM_CARD_START:
       return {
         ...state,
-        isLoading: true
+        addLoading: true
       }
     case ActionTypes.ADD_SUBSCRIPTIOM_CARD_SUCCESS:
       return {
         ...state,
-        isLoading: false
+        addLoading: false
       }
     case ActionTypes.ADD_SUBSCRIPTIOM_CARD_FAILURE:
       return {
         ...state,
-        isLoading: false
+        addLoading: false
       }
     case ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_START:
       return {
         ...state,
-        isLoading: true
+        getLoading: true
       }
     case ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_SUCCESS:
       return {
         ...state,
         getAllCardBody: action.payload,
-        isLoading: false
+        getLoading: false
       }
     case ActionTypes.GET_ALL_SUBSCRIPTIOM_CARD_FAILURE:
       return {
         ...state,
-        isLoading: false
+        getLoading: false
       }
     case ActionTypes.DELETE_SUBSCRIPTIOM_CARD_START:
       return {
         ...state,
-        isLoading: true
+        deleteLoading: true
       }
     case ActionTypes.DELETE_SUBSCRIPTIOM_CARD_SUCCESS:
       return {
         ...state,
-        isLoading: false
+        deleteLoading: false
       }
     case ActionTypes.DELETE_SUBSCRIPTIOM_CARD_FAILURE:
       return {
         ...state,
-        isLoading: false
+        deleteLoading: false
       }
     case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_START:
       return {
         ...state,
-        isLoading: true
+        editLoading: true
       }
     case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_SUCCESS:
       return {
         ...state,
-        isLoading: false
+        editLoading: false
       }
     case ActionTypes.EDIT_SUBSCRIPTIOM_CARD_FAILURE:
       return {
         ...state,
-        isLoading: false
+        editLoading: false
       }
     case ActionTypes.GET_AMOUNT_START:
       return {
         ...state,
-        isLoading: true
+        amountLoading: true
       }
     case ActionTypes.GET_AMOUNT_SUCCESS:
       return {
         ...state,
         amount: action.payload,
-        isLoading: false
+        amountLoading: false
       }
     case ActionTypes.GET_AMOUNT_FAILURE:
       return {
         ...state,
-        isLoading: false
+        amountLoading: false
       }
     default: {
       return state

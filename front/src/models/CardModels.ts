@@ -1,14 +1,17 @@
 import * as ActionTypes from "../constants/actionTypes";
 
 export interface CardState {
-  isLoading: boolean;
+  addLoading: boolean;
+  editLoading: boolean;
+  deleteLoading: boolean;
+  getLoading: boolean;
+  amountLoading: boolean;
   addCardBody: CardBody;
   getAllCardBody: CardBody[];
   amount: CardPriceAmount;
 }
 
 
-// TODO:ログイン機能をつけるときにユーザーIDプロパティ/カードIDプロパティを追加する
 export interface CardBody {
   id: string;
   userId: string;
@@ -17,8 +20,6 @@ export interface CardBody {
   caption: string;
 }
 
-
-// 一時的なテストモデル=>全体を編集するのがめんどくさいのでこちらを一時的に利用する
 export interface AddCardBody {
   userId: string;
   name: string;
